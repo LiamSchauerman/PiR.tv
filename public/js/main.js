@@ -1,7 +1,12 @@
 
 $(document).ready(function(){
 	$(".logo").html($("#rpi-svg").html());
-	
+	$("#getFiles").click(function(){
+		$.get("http://localhost:8080/files", function(data){
+			console.log("working");
+			console.log(data);
+		})
+	})
 });
 // var Loader = {
 //   loader: $('#loader'),

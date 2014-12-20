@@ -8,7 +8,8 @@ var express = require('express')
   , path = require('path')
   , io = require('socket.io').listen(server)
   , spawn = require('child_process').spawn
-  , omx = require('omxcontrol');
+  , omx = require('omxcontrol')
+  , fs = require('fs');
 
 
 
@@ -28,11 +29,25 @@ if ('development' == app.get('env')) {
 
 //Routes
 app.get('/', function (req, res) {
+  console.log(req.url)
+  // if(req.url === '/')
   res.sendfile(__dirname + '/public/index.html');
 });
 
 app.get('/remote', function (req, res) {
   res.sendfile(__dirname + '/public/remote.html');
+});
+
+app.get('/files', function (req, res) {
+  // console.log(req.url)
+  // res.writeHead(200, {
+  //   'Content-Type': 'text/html',
+  //   'Access-Control-Allow-Origin' : '*'});  
+  console.log('in route')
+  fs.readdir(__dirname+'/public', function(err, files){
+    res.send(files);
+  })
+  // res.sendfile(__dirname + '/public/remote.html');
 });
 
 app.get('/play/:video_id', function (req, res) {
