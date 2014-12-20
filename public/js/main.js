@@ -3,8 +3,11 @@ $(document).ready(function(){
 	$(".logo").html($("#rpi-svg").html());
 	$("#getFiles").click(function(){
 		$.get("http://localhost:8080/files", function(data){
-			console.log("working");
-			console.log(data);
+			$("#files").find('ul').html('')
+			for( var i=0; i<data.length; i++){
+				li = "<li class='file'>"+data[i]+"</li>"
+				$("#files").find('ul').append(li)
+			}
 		})
 	})
 });

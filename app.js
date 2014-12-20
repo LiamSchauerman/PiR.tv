@@ -43,8 +43,8 @@ app.get('/files', function (req, res) {
   // res.writeHead(200, {
   //   'Content-Type': 'text/html',
   //   'Access-Control-Allow-Origin' : '*'});  
-  console.log('in route')
-  fs.readdir(__dirname+'/public', function(err, files){
+  fs.readdir('/Users/liam/Desktop/paris', function(err, files){
+    if( err ) console.log(err)
     res.send(files);
   })
   // res.sendfile(__dirname + '/public/remote.html');
