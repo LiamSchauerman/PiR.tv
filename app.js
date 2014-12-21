@@ -43,7 +43,7 @@ app.get('/files', function (req, res) {
   // res.writeHead(200, {
   //   'Content-Type': 'text/html',
   //   'Access-Control-Allow-Origin' : '*'});  
-  fs.readdir('/Users/liam/Desktop/paris', function(err, files){
+  fs.readdir('/home/pi', function(err, files){
     if( err ) console.log(err)
     res.send(files);
   })
