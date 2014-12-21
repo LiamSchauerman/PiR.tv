@@ -44,30 +44,54 @@ socket.on('connect', function(data){
 			  	});
 			  		
 		  	}
-	  }		
-	
-$$(".r-container").swipeLeft(function(){
-	socket.emit('controll',{action:"swipeLeft"}); 
-});
+	  }	
+	$.get("http://localhost:8080/files", function(data){
+		$("#filesRemote").find('ul').html('')
+		for( var i=0; i<data.length; i++){
+			if( data[i][0] !== '.'){
+				li = "<li class='file'>"+data[i]+"</li>"
+				$("#filesRemote").find('ul').append(li)
+			}
+		}
+	});
 
-$$(".r-container").swipeRight(function(){
-	socket.emit('controll',{action:"swipeRight"}); 
-});
-$$(".r-header").tap(function(){
-	socket.emit('controll',{action:"tap"}); 
-	$(".app-body").fadeToggle("fast", function () {});	
-	$.get(host+'/omx/quit',function(data){
-		console.log(data);
-	});
-});
-$$(".app-body").tap(function(){
-	$.get(host+'/omx/pause',function(data){
-		console.log(data);
-	});
-});
-$(".search input").change(function() {
-	Youtube.getVideo($(this).val(), socket);
- });
+	// clicking on a video title
+	$("#filesRemote").delegate('.file', 'click', function(){
+		if( $(this).hasClass('active') ){
+			// play this video;
+			console.log('Let\'s play '+$(this).html() )
+		} else {
+			$.each($('.file'), function(i, elem){
+				if($(elem).hasClass('active')){
+					$(elem).removeClass('active')
+				}
+			});
+			$(this).toggleClass('active');
+		}
+	})
+	
+// $$(".r-container").swipeLeft(function(){
+// 	socket.emit('controll',{action:"swipeLeft"}); 
+// });
+
+// $$(".r-container").swipeRight(function(){
+// 	socket.emit('controll',{action:"swipeRight"}); 
+// });
+// $$(".r-header").tap(function(){
+// 	socket.emit('controll',{action:"tap"}); 
+// 	$(".app-body").fadeToggle("fast", function () {});	
+// 	$.get(host+'/omx/quit',function(data){
+// 		console.log(data);
+// 	});
+// });
+// $$(".app-body").tap(function(){
+// 	$.get(host+'/omx/pause',function(data){
+// 		console.log(data);
+// 	});
+// });
+// $(".search input").change(function() {
+// 	Youtube.getVideo($(this).val(), socket);
+//  });
  
  socket.on("loading", function(data){
 	 console.log(data);
