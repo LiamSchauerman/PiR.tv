@@ -46,11 +46,12 @@ socket.on('connect', function(data){
 		  	}
 	  }	
 	$.get("http://localhost:8080/files", function(data){
-		$("#filesRemote").find('ul').html('')
+		$("#fileListRemote").html('');
+		console.log('getting files');
 		for( var i=0; i<data.length; i++){
 			if( data[i][0] !== '.'){
 				li = "<li class='file'>"+data[i]+"</li>"
-				$("#filesRemote").find('ul').append(li)
+				$("#fileListRemote").append(li)
 			}
 		}
 	});
@@ -58,7 +59,8 @@ socket.on('connect', function(data){
 	// clicking on a video title
 	$("#filesRemote").delegate('.file', 'click', function(){
 		if( $(this).hasClass('active') ){
-			// play this video;
+			var title = $(this).html()
+			socket.emit('video', {action:'local', title: title})
 			console.log('Let\'s play '+$(this).html() )
 		} else {
 			$.each($('.file'), function(i, elem){

@@ -162,6 +162,19 @@ h1 {
 	float:left;
 }
 
+#remoteController {
+	width: 400px;
+}
+
+.press {
+	float:left;
+	width:190px;
+	border:1px solid white;
+	height:80px;
+	text-align:center;
+	padding-top:20px;
+}
+
 #selected{
 	position: absolute;
 	font-size: 40px;

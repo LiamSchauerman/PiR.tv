@@ -29,8 +29,6 @@ if ('development' == app.get('env')) {
 
 //Routes
 app.get('/', function (req, res) {
-  console.log(req.url)
-  // if(req.url === '/')
   res.sendfile(__dirname + '/public/index.html');
 });
 
@@ -38,12 +36,21 @@ app.get('/remote', function (req, res) {
   res.sendfile(__dirname + '/public/remote.html');
 });
 
+app.get('/control', function (req, res) {
+  console.log('in route')
+  console.log(__dirname)
+  res.sendfile(__dirname + '/public/remoteControl.html');
+});
+
 app.get('/files', function (req, res) {
   // console.log(req.url)
   // res.writeHead(200, {
   //   'Content-Type': 'text/html',
-  //   'Access-Control-Allow-Origin' : '*'});  
-  fs.readdir('/home/pi', function(err, files){
+  //   'Access-Control-Allow-Origin' : '*'}); 
+  // change this filepath accordingly 
+  var homeRoute = '/Users/liam/Desktop/paris';
+  var serveRoute = '/home/pi';
+  fs.readdir(homeRoute, function(err, files){
     if( err ) console.log(err)
     res.send(files);
   })
@@ -124,6 +131,9 @@ io.sockets.on('connection', function (socket) {
             //child = spawn('omxplayer',[id+'.mp4']);
             omx.start(id+'.mp4');
         });
+    }
+    if( data.action === 'local'){
+      console.log(data.title)
     }
 
  });
