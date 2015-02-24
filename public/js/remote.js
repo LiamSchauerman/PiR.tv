@@ -45,7 +45,7 @@ socket.on('connect', function(data){
 			  		
 		  	}
 	  }	
-	$.get("http://localhost:8080/files", function(data){
+	$.get("http://10.0.1.71:8080/files", function(data){
 		$("#fileListRemote").html('');
 		console.log('getting files');
 		for( var i=0; i<data.length; i++){
