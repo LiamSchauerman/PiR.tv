@@ -43,15 +43,17 @@ app.get('/control', function (req, res) {
 });
 
 app.get('/files', function (req, res) {
-  // console.log(req.url)
+  console.log('inside /files')
+  console.log(req.url)
   // res.writeHead(200, {
   //   'Content-Type': 'text/html',
   //   'Access-Control-Allow-Origin' : '*'}); 
   // change this filepath accordingly 
   var homeRoute = '/Users/liam/Desktop/paris';
   var serveRoute = '/home/pi';
-  fs.readdir(homeRoute, function(err, files){
+  fs.readdir(serveRoute, function(err, files){
     if( err ) console.log(err)
+      console.log(files);
     res.send(files);
   })
   // res.sendfile(__dirname + '/public/remote.html');
@@ -118,19 +120,19 @@ io.sockets.on('connection', function (socket) {
  socket.on("video", function(data){
 
     if( data.action === "play"){
-    var id = data.video_id,
-         url = "http://www.youtube.com/watch?v="+id;
+        var id = data.video_id,
+             url = "http://www.youtube.com/watch?v="+id;
 
-    var runShell = new run_shell('youtube-dl',['-o','%(id)s.%(ext)s','-f','/18/22',url],
-        function (me, buffer) {
-            me.stdout += buffer.toString();
-            socket.emit("loading",{output: me.stdout});
-            console.log(me.stdout);
-         },
-        function () {
-            //child = spawn('omxplayer',[id+'.mp4']);
-            omx.start(id+'.mp4');
-        });
+        var runShell = new run_shell('youtube-dl',['-o','%(id)s.%(ext)s','-f','/18/22',url],
+            function (me, buffer) {
+                me.stdout += buffer.toString();
+                socket.emit("loading",{output: me.stdout});
+                console.log(me.stdout);
+             },
+            function () {
+                //child = spawn('omxplayer',[id+'.mp4']);
+                omx.start(id+'.mp4');
+            });
     }
     if( data.action === 'local'){
       console.log(data.title)
